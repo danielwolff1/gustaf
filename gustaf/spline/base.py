@@ -744,14 +744,18 @@ def load_splines(fname):
     # try to initialize with correct spline type
     gussplines = list()
     for dics in dictsplines:
-        is_bspline = "knot_vectors" in dics
-        is_nurbs = "weights" in dics
+        is_non_uniform = "knot_vectors" in dics
+        is_rational = "weights" in dics
 
-        if is_nurbs:
-            gussplines.append(NURBS(**dics))
-        elif is_bspline:
-            gussplines.append(BSpline(**dics))
+        if is_rational:
+            if is_non_uniform:
+                gussplines.append(NURBS(**dics))
+            else:
+                gussplines.append(RationalBezier(**dics))
         else:
-            gussplines.append(Bezier(**dics))
+            if is_non_uniform:
+                gussplines.append(BSpline(**dics))
+            else:
+                gussplines.append(Bezier(**dics))
 
     return gussplines
