@@ -526,7 +526,7 @@ class RationalBezier(GustafSpline, splinepy.RationalBezier):
         --------
         same_nurbs: NURBS
         """
-        return BSpline(
+        return NURBS(
             degrees=self.degrees,
             control_points=self.control_points,
             knot_vectors=[
